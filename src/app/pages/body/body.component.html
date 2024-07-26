@@ -1,0 +1,273 @@
+<div *ngIf="loading" class="loader-overlay">
+    <div class="loader"></div>
+</div>
+<div class="container-fluid">
+    <app-header></app-header>
+    <div class="row mt-5 sm-mt-5">
+		<div class="col-xl-11 mx-auto">
+			<div id="carouselExampleCaptions" class="carousel slide">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="assets/images/header-img.png" class="d-block w-100">
+						<div class="carousel-caption d-none d-md-block">
+						</div>
+						<div class="carousel-item">
+							<img src="assets/images/header-img.png" class="d-block w-100">
+							<div class="carousel-caption d-none d-md-block">
+							</div>
+						</div>
+						<div class="carousel-item">
+							<img src="assets/images/header-img.png" class="d-block w-100">
+							<div class="carousel-caption d-none d-md-block">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-11 mx-auto mt-3 ">
+			<img src="assets/images/banner-2.png" class="w-100" alt="">
+		</div>
+	</div>
+    <div class="row">
+        <div class="col-11 mx-auto text-center mt-5 sm-mt-3">
+            <h1 class="sm-cat-text5">All Categories</h1>
+            <div class="row sm-mt-3 mt-5">
+                <div class="col-xl-1 col-md-2 col-3 mt-3 sm-m-0" style="margin: 0 1.2vw;"
+                    *ngFor="let item of firstRowItems; let last = last">
+                    <a class="aHover pointer" style="text-decoration: none; color: #1E293B;"
+                        href="/catagories/{{item.id}}">
+                        <img class="w-100 sm-w-75" [src]="item.imgSrc">
+                        <h6 class=" mt-2 sm-cat-text3" style="font-size: 1.8vh;">{{ item.title }}</h6>
+                        <h6 class="smm-cat-text" *ngIf="last"
+                            style="font-size: 1.6vh; background-color: #FFD33C; border-radius: 5px; padding: .5vh 1vh .5vh 1vh;">
+                            {{ item.subTitle }}
+                        </h6>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="text-center mt-4 sm-mt-3">
+        <h1 class="sm-cat-text5">Auction Product</h1>
+        <h6 class="sm-cat-text4">Hurry up! The auction is ending soon</h6>
+        <div class="row">
+            <div class="col-xl-11 mx-auto mt-3">
+                <div style="text-align: right; cursor:pointer">
+                    <a style="color: #292D32; text-decoration: none;" class="aHover" href="/product-views/a">
+                        <h6>View All</h6>
+                    </a>
+                </div>
+                <div class="row mt-4">
+                    @for (item of getDisplayedItems(); track item.id) {
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card mb-3 w-100 p-1" style=" border-radius: 12px !important;">
+                            <div class="m-2 card border-0">
+                                <img class="position-relative d-none d-xl-block" style="height: 28vh; border-radius: 12px;"
+                                    *ngIf="item.photo && item.photo.length > 0" [src]="item.photo[0].src">
+                                    <img class="position-relative d-block d-xl-none sm-height" style="height: 20vh; border-radius: 12px;"
+                                    *ngIf="item.photo && item.photo.length > 0" [src]="item.photo[0].src">
+                                <!-- <img class="position-relative" style="height: 25vh; border-radius: 2vh;" *ngIf="item.photo && item.video.length > 0" [src]="item.video[0].src"> -->
+                                <div class="position-absolute bg-warning" *ngIf="item.booster_start_datetime"
+                                    style="border-radius: 2vh; top: 10px; left: 5px; padding: .5vh 4vh .5vh 4vh;">
+                                    <span class="m-0" style="font-size: 16px;">Special Offer</span>
+                                </div>
+                                <div class="position-absolute" style="top: 10px; right: 5px;">
+                                    <img *ngIf="item.wishlist.length<=0" src="assets/images/fav.png" alt=""
+                                        (click)="addWishLst(item)">
+                                    <img *ngIf="item.wishlist.length>0" src="assets/images/fav-added.png" alt=""
+                                        (click)="removeWishLst(item)">
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <!-- <b style="text-align: left;">{{item.price}}</b> -->
+                                    <b [ngStyle]="{'opacity': 'AED 2,44,5544' ? '1' : '0', 'text-align': 'left'}">
+                                        AED {{item.auction_price}}
+                                    </b>
+
+                                    <div style="background-color: #FFD33C; border-radius: 5px;">
+                                        <span
+                                            [ngStyle]="{'opacity': '01: 23s remaining' ? '1' : '0', 'text-align': 'left'}"
+                                            class="p-1" style="font-size: 2vh;">{{item.remainingDays}} Days</span>
+                                        <!-- <span [ngStyle]="{'opacity': '01: 23s remaining' ? '1' : '0', 'text-align': 'left'}" class="p-1" style="font-size: 2vh;">01: 23s remaining</span> -->
+                                    </div>
+
+                                </div>
+                                <!-- <h6 class="ellipsis" style="text-align: left; font-size: 15px;">{{item.title}}</h6> -->
+                                <h5 class="ellipsis mt-1" [ngStyle]="{'opacity': item.title ? '1' : '0'}"
+                                    style="text-align: left; font-size: 15px;">{{item.title}}</h5>
+
+                                <div class="row">
+                                    <!-- Vahecils -->
+                                    <div *ngIf="!(isVehicle(item) || isProperty(item))" style="text-align: left;" class="col-6">
+                                        <img src="assets/images/date.svg"  alt="">
+                                        <span class="sm-cat-text3" [ngStyle]="{'opacity': item.created_at ? '1' : '0'}"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
+                                            {{item.created_at | date}}
+                                        </span>
+                                    </div>
+                                    <div *ngIf="isVehicle(item)" style="text-align: left;" class="col-5">
+                                        <img src="assets/images/date.svg" style="width: 15%;" alt=""><span
+                                            class="sm-cat-text3" [ngStyle]="{'opacity': item.created_at ? '1' : '0'}"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{item.created_at
+                                            | date}}</span>
+                                    </div>
+                                    <div *ngIf="isVehicle(item)" style="text-align: left;" class="col-3">
+                                        <img src="assets/images/km.svg" style="width: 40%;" alt="">
+                                        <span class="sm-cat-text3" [ngStyle]="{'opacity': Km(item) ? '1' : '0'}"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
+                                            {{ Km(item) }}
+                                        </span>
+                                    </div>
+                                    <div *ngIf="isVehicle(item)" style="text-align: left;" class="col-4">
+                                        <img src="assets/images/petrol.svg" style="width: 25%;" alt="">
+                                        <span class="sm-cat-text3" [ngStyle]="{'opacity': petrol(item) ? '1' : '0'}"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
+                                            {{ petrol(item) }}
+                                        </span>
+
+                                    </div>
+                                    <!-- Property -->
+                                    <div *ngIf="isProperty(item)" style="text-align: left;" class="col-4">
+                                        <img style="width: 25%;" src="assets/images/bath.png" alt=""><span
+                                            class="sm-cat-text3" [ngStyle]="{'opacity': bath(item) ? '1' : '0'}"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{bath(item)}}</span>
+                                    </div>
+                                    <div *ngIf="isProperty(item)" style="text-align: left;" class="col-4">
+                                        <img style="width: 25%;" src="assets/images/bed.png" alt=""><span
+                                            class="sm-cat-text3" [ngStyle]="{'opacity': bed(item) ? '1' : '0'}"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{bed(item)}}</span>
+                                    </div>
+                                    <div *ngIf="isProperty(item)" style="text-align: left;" class="col-4">
+                                        <img style="width: 25%;" src="assets/images/dining.png" alt=""><span
+                                            class="sm-cat-text3"
+                                            style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E"></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <img src="assets/images/location.svg" style="width: 7%" alt=""><span
+                                        class="sm-cat-text4" style="font-size: 2.5vh; margin-left: 5px; text-overflow: ellipsis; 
+                                                white-space: nowrap;
+                                                overflow: hidden; color: #8E8E8E"
+                                        [ngStyle]="{'opacity': item.location ? '1' : '0'}">{{item.location}}</span>
+                                </div>
+                                <a href="/auctionProduct/{{item.id}}" type="submit" class="bidButton p-2 mt-2">Bid
+                                    Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4 sm-mt-3">
+        <h1 class="sm-cat-text5">Feature Product</h1>
+        <span class="sm-cat-text4">Act fast! These featured products won't last long</span>
+        <div class="row">
+            <div class="col-xl-11 mx-auto">
+                <div class="" style="text-align: right; cursor:pointer">
+                    <a style="color: #292D32; text-decoration: none;" class="aHover" href="/product-views/f">
+                        <h6>View All</h6>
+                    </a>
+                </div>
+                <div class="row mt-4">
+                    @for (item of getDisplayedFeatured(); track item.id) {
+                    <div class="col-xl-3 col-md-6">
+                        <a href="/productDetails/{{item.id}}" style="text-decoration: none; color: black;">
+                            <div class="card mb-3 w-100 p-1" style=" border-radius: 12px !important;">
+                                <div class="m-2 card border-0">
+                                    <img class="position-relative d-none d-xl-block" style="height: 28vh; border-radius: 12px;"
+                                        *ngIf="item.photo && item.photo.length > 0" [src]="item.photo[0].src">
+                                        <img class="position-relative d-block d-xl-none sm-height" style="height: 20vh; border-radius: 12px;"
+                                        *ngIf="item.photo && item.photo.length > 0" [src]="item.photo[0].src">
+                                    <!-- <img class="position-relative" style="height: 25vh; border-radius: 2vh;" *ngIf="item.photo && item.video.length > 0" [src]="item.video[0].src"> -->
+                                    <div class="position-absolute bg-warning" *ngIf="item.booster_start_datetime"
+                                        style="border-radius: 2vh; top: 10px; left: 5px; padding: .5vh 4vh .5vh 4vh;">
+                                        <span class="m-0" style="font-size: 16px;">Special Offer</span>
+                                    </div>
+                                    <div class="position-absolute" style="top: 10px; right: 5px;">
+                                        <img *ngIf="item.wishlist.length<=0" src="assets/images/fav.png" alt=""
+                                            (click)="addWishLst(item)">
+                                        <img *ngIf="item.wishlist.length>0" src="assets/images/fav-added.png" alt=""
+                                            (click)="removeWishLst(item)">
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <!-- <b style="text-align: left;">{{item.price}}</b> -->
+                                        <b [ngStyle]="{'opacity': 'AED 2,44,5544' ? '1' : '0', 'text-align': 'left'}">
+                                            AED {{item.fix_price}}
+                                        </b>
+                                    </div>
+                                    <!-- <h6 class="ellipsis" style="text-align: left; font-size: 15px;">{{item.title}}</h6> -->
+                                    <h5 class="ellipsis mt-1" [ngStyle]="{'opacity': item.title ? '1' : '0'}"
+                                        style="text-align: left; font-size: 15px;">{{item.title}}</h5>
+
+                                    <div class="row mb-1 mt-1 d-flex">
+                                        <!-- Vahecils -->
+                                        <div *ngIf="!(isVehicle(item) || isProperty(item))" style="text-align: left;" class="col-6">
+                                            <img src="assets/images/date.svg" style="width: 12%; text-align: left;" alt="">
+                                            <span class="sm-cat-text3"
+                                                [ngStyle]="{'opacity': item.created_at ? '1' : '0'}"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
+                                                {{item.created_at | date}}
+                                            </span>
+                                        </div>
+                                        <div *ngIf="isVehicle(item)" style="text-align: left;" class="col-5">
+                                            <img src="assets/images/date.svg" style="width: 15%;" alt=""><span
+                                                class="sm-cat-text3"
+                                                [ngStyle]="{'opacity': item.created_at ? '1' : '0'}"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{item.created_at
+                                                | date}}</span>
+                                        </div>
+                                        <div *ngIf="isVehicle(item)" style="text-align: left;" class="col-3">
+                                            <img src="assets/images/km.svg" style="width: 40%;" alt="">
+                                            <span class="sm-cat-text3" [ngStyle]="{'opacity': Km(item) ? '1' : '0'}"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
+                                                {{ Km(item) }}
+                                            </span>
+                                        </div>
+                                        <div *ngIf="isVehicle(item)" style="text-align: left;" class="col-4">
+                                            <img src="assets/images/petrol.svg" style="width: 25%;" alt="">
+                                            <span class="sm-cat-text3" [ngStyle]="{'opacity': petrol(item) ? '1' : '0'}"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E;">
+                                                {{ petrol(item) }}
+                                            </span>
+
+                                        </div>
+                                        <!-- Property -->
+                                        <div *ngIf="isProperty(item)" style="text-align: left;" class="col-4">
+                                            <img style="width: 25%;" src="assets/images/bath.png" alt=""><span
+                                                class="sm-cat-text3" [ngStyle]="{'opacity': bath(item) ? '1' : '0'}"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{bath(item)}}</span>
+                                        </div>
+                                        <div *ngIf="isProperty(item)" style="text-align: left;" class="col-4">
+                                            <img style="width: 25%;" src="assets/images/bed.png" alt=""><span
+                                                class="sm-cat-text3" [ngStyle]="{'opacity': bed(item) ? '1' : '0'}"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E">{{bed(item)}}</span>
+                                        </div>
+                                        <div *ngIf="isProperty(item)" style="text-align: left;" class="col-4">
+                                            <img style="width: 25%;" src="assets/images/dining.png" alt=""><span
+                                                class="sm-cat-text3"
+                                                style="margin-left: 5px; font-size: 1.5vh; color: #8E8E8E"></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <img src="assets/images/location.svg" style="width: 7%" alt=""><span
+                                            class="sm-cat-text4" style="font-size: 2.5vh; margin-left: 5px; text-overflow: ellipsis; 
+                                                        white-space: nowrap;
+                                                        overflow: hidden; color: #8E8E8E"
+                                            [ngStyle]="{'opacity': item.location ? '1' : '0'}">{{item.location}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <app-footer></app-footer>
+</div>

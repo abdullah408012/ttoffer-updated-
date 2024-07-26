@@ -1,0 +1,61 @@
+.btn:hover{
+    background-color: transparent !important;
+    color: #000000;
+}
+
+.active {
+    background-color: #E5FFF8;
+  }
+  .suggestions-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: -15vh;
+    z-index: 10;
+    padding: 10px;
+  }
+  
+  .suggestion-box {
+    padding: 10px 15px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .suggestion-box:hover {
+    background-color: #f0f0f0;
+  }
+  .userImage{
+    width: 80px !important;
+    height: 80px;
+  }
+  .right {
+    text-align: right;
+    background-color: #414141;
+    margin-left: auto;
+    margin-bottom: 10px;
+    margin-right: 0;
+    padding: 10px;
+display: table-cell;
+    color: white;
+    border-radius: 15px 15px 0 15px;
+  }
+  
+  .left {
+    text-align: left;
+    background-color: #F1F1F1;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 10px;
+display: table-cell;
+    border-radius: 15px 15px 15px 0;
+  }
+
+  @media (width < 1030px){
+    .sm-img-h{
+        height: 45px !important;
+    }
+}
